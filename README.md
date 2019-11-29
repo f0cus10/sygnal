@@ -22,15 +22,16 @@ First, we'll need to install some packages to work with the app
 
 <details>
   <summary>Linux</summary>
-  In your **Debian** based linux distro, run the following
-  ```bash
-  $ sudo apt install python3-pip -y
-  $ sudo pip3 install virtualenv
-  ```
+  <p>In your <strong>Debian</strong> based linux distro, run the following: </p> 
+  <code>
+  <p>$ sudo apt install python3-pip -y </p>
+  <p>$ sudo pip3 install virtualenv </p>
+  </code>
 </details>
 
 <details>
   <summary> macOS & Windows </summary>
+
   1. Install a VM Emulator from [VirtualBox](https://virtualbox.org)
   2. Then install and boot an Ubuntu (or any Debian) distro
   3. Run the above linux commands after installing the pre-requisite software
