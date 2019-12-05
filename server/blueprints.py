@@ -13,10 +13,12 @@ def grid():
     if 'numChannels' not in form_data.keys():
         return jsonify({ 'error': 'Insufficient arguments' }), 200
     
+    grid_id = uuid.uuid1()
     storage_grid, res_grid = generate_grid()
 
+    database[grid_id] = storage_grid
 
-    return jsonify({'gridID': 1, 'grid': res_grid }), 201
+    return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
 
 
 @main.route('/getroute', methods=['GET'])
