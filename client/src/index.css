@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -11,3 +12,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+/*
+.App {
+  border: 4px solid black;
+  text-align: left;
+  background: #4169E1;
+  color: #433;
+  margin: 50px;
+  padding: 100px;
+}
+*/
