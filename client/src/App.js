@@ -7,6 +7,8 @@ import { Graph } from "react-d3-graph";
 class App extends Component {
 state = {
   fields: {},
+  gridData : [],
+  gridId: null,
   data: {
     nodes: [ 
     { id: "BS1", symbolType: "triangle"}, { id: "BS2", symbolType: "triangle"}, 
@@ -18,27 +20,25 @@ state = {
 
 };
 
-  onSubmit = updatedValue => {
+  formSubmit = (serverData) => {
+    const {gridID, grid} = serverData;
     this.setState({
-      fields: {
-      ...this.state.fields,
-      ...updatedValue
-      }
-    });
-  };
+      gridId: gridID,
+      gridData: grid 
+    })
+  }
 
 render () {
   return (
     <div className="App">
-      <Form onChange={fields => this.onSubmit(fields)}/>
+      <Form updateGrid={this.formSubmit} />
         <p>
         {JSON.stringify(this.state.fields, null, 2)}
         </p>
-        graph will go here
-        <Graph
+        {/* <Graph
           id="graph-id"
           data={this.state.data}
-        />
+        /> */}
     </div>
   );
   }
