@@ -10,7 +10,7 @@ from baseStation import baseStation
 # #User input number of channels, ranging from 5 - 10
 # numOfChannels = 6
 
-def generate_grid(num_channels):
+def generate_grid():
 	'''
 	@params param_dict contains the relevant parameters necessary to generate the grid
 	'''
@@ -42,7 +42,7 @@ def generate_grid(num_channels):
 		while GRID[x][y] != 0:
 			x = random.randrange(0,99)
 			y = random.randrange(0,99)
-		GRID[x][y] = baseStation(x, y, base, base_station_radius])
+		GRID[x][y] = baseStation(x, y, base, base_station_radius)
 		shadow_map[x][y] = 'B' + str(node)
 		
 
