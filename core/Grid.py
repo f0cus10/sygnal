@@ -19,15 +19,15 @@ class Grid():
 		self.DIJKSTRAS = {}
 
 	#returns true if n1 is in b1's transmission range
-	def checkTransmission(b1, n1):
-		if ((b1.x1 + b1.radius) < (n1.x1) && (b1.y1 + b1.radius) < (n1.y1)) || ((b1.x1 - b1.radius) > (n1.x1) && (b1.y1 - b1.radius) > (n1.y1))
+	def checkTransmission(self, b1, n1):
+		if ((b1.x1 + b1.radius) < (n1.x1) and (b1.y1 + b1.radius) < (n1.y1)) or ((b1.x1 - b1.radius) > (n1.x1) and (b1.y1 - b1.radius) > (n1.y1)):
 			return true
 
 		return false
 
 
 	#Add nodes to a base station
-	def addNodeToBaseStation(b1 , n1):
+	def addNodeToBaseStation(self, b1 , n1):
 		#Checking if n1 is within transmission range of b1
 		if checkTransmission(b1, n1):
 			b1.addNodes(n1)
@@ -36,7 +36,7 @@ class Grid():
 
 
 	#distance formula, taking in two nodes, can be applicable for nodes and base stations
-	def distanceFormula(n1, n2):
+	def distanceFormula(self, n1, n2):
 		x = (n2.x1 - n1.x1)**2
 		y = (n2.y1 - n1.y1)**2
 
@@ -53,7 +53,7 @@ class Grid():
       		Circles intersect each other. """
     #Checks whether b1 and b2 intersect using their transmission range
     #Can be applicable to nodes or base stations
-	def checkBaseStations(b1, b2): 
+	def checkBaseStations(self, b1, b2): 
 	    dist = distanceFormula(b1, b2) 
 	    radSumSq = (b1.radius + b2.radius) * (b1.radius + b2.radius);  
 	    if (dist == radSumSq): 
@@ -63,10 +63,14 @@ class Grid():
 	    else: 
 	        return 0 
 
+
 	#Dijkstra's Algorithm
-	def dijkstra(n1, n2):
+	#n1 - source
+	#n2 - destination
+	def dijkstra(self, n1, n2):
 
 		#Checking if n1 is in base station range, stores the base station in b1
+		"""
 		for base in BASESTATIONS:
 			if addNodeToBaseStation(base, n1) == True:
 				b1 = baseStation(base.x1, base.y1, base.ID, base.radius)
@@ -79,16 +83,16 @@ class Grid():
 				b2 = baseStation(base.x1, base.y1, base.ID, base.radius)
 				break
 
+		"""
+
 		#if this is true, we do not need to call checkBaseStations function
-		if b1 == b2:
+		#if b1 == b2:
 
 
 		#Dijstra code
 
-		#NODES - list of all nodes in grid
-		nodes = ('A', 'B', 'C', 'D', 'E', 'F', 'G')
-
 		#DISTANCES - distance from one node to every other node stored in a dictionary
+		"""
 		distances = {
 		    'B': {'A': 5, 'D': 1, 'G': 2},
 		    'A': {'B': 5, 'D': 3, 'E': 12, 'F' :5},
@@ -97,24 +101,37 @@ class Grid():
 		    'C': {'G': 2, 'E': 1, 'F': 16},
 		    'E': {'A': 12, 'D': 1, 'C': 1, 'F': 2},
 		    'F': {'A': 5, 'E': 2, 'C': 16}}
+		"""
+		#looping through NODES to populate DISTANCES appropriately 
+		#Assume that getNeighbors has already been called in Everything class
+		for node in self.NODES:
+			#If the node has neighbors within its transmission range, update DISTANCES
+			if len(node.NodesInRange) != 0:
+				#loop through the nodes in currentNode's list of neighbors
+				for neighbor in node.NodesInRange:
+					self.DISTANCES[node] = {}
+					self.DISTANCES[node][neighbor] = self.distanceFormula(node, neighbor)
 
+		print(self.DISTANCES)
+
+		#NODES - list of all nodes in grid
 		#dictionary that is updated periodically with shortest distances from each node
-		unvisited = {node: None for node in nodes} #using None as +inf
+		unvisited = {node: None for node in self.NODES} #using None as +inf
 
 		#dictionary that stores which nodes are visited already
 		visited = {}
 
-		#current =  user decides to be the start node
-		current = 'B'
+		#current =  user decides to be the start node through Everything class
+		current = n1
 
-		#User inputs destination node
-		destinationNode = 'L'
+		#destinationNode = n2 (User inputted through Everything class)
+		destinationNode = n2
 		currentDistance = 0
 		unvisited[current] = currentDistance
 
 		#Dijkstra's algorithm
 		while True:
-		    for neighbour, distance in distances[current].items():
+		    for neighbour, distance in self.DISTANCES[current].items():
 		        if neighbour not in unvisited: continue
 		        newDistance = currentDistance + distance
 		        if unvisited[neighbour] is None or unvisited[neighbour] > newDistance:

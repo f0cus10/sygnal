@@ -9,7 +9,6 @@ class Node():
 		self.y1 = y1
 		self.ID = ID
 		self.radius = radius
-
-
+		self.NodesInRange = []
 
 
