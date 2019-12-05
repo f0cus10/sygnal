@@ -20,13 +20,13 @@ state = {
 
 };
 
-  formSubmit = (serverData) => {
-    const {gridID, grid} = serverData;
-    this.setState({
-      gridId: gridID,
-      gridData: grid 
-    })
-  }
+  // formSubmit = (serverData) => {
+  //   const {gridID, grid} = serverData;
+  //   this.setState({
+  //     gridId: gridID,
+  //     gridData: grid 
+  //   })
+  // }
 
 render () {
   return (
@@ -35,10 +35,10 @@ render () {
         <p>
         {JSON.stringify(this.state.fields, null, 2)}
         </p>
-        {/* <Graph
+        <Graph
           id="graph-id"
           data={this.state.data}
-        /> */}
+        />
     </div>
   );
   }

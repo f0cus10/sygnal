@@ -21,7 +21,7 @@ onSubmit = async(e) => {
   const result = await axios.post('/submitform', {numChannels});
   const response = result.data;
   console.log(response);
-  this.props.updateGrid(response)
+  //this.props.updateGrid(response)
   this.setState({
       SourceNode: "",
       DestinationNode: "",
