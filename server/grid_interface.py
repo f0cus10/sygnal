@@ -47,3 +47,4 @@ def generate_grid():
 		
 
 	return GRID, shadow_map
+
