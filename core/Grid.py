@@ -21,9 +21,9 @@ class Grid():
 	#returns true if n1 is in b1's transmission range
 	def checkTransmission(self, b1, n1):
 		if ((b1.x1 + b1.radius) < (n1.x1) and (b1.y1 + b1.radius) < (n1.y1)) or ((b1.x1 - b1.radius) > (n1.x1) and (b1.y1 - b1.radius) > (n1.y1)):
-			return true
+			return True
 
-		return false
+		return False
 
 
 	#Add nodes to a base station
@@ -31,7 +31,7 @@ class Grid():
 		#Checking if n1 is within transmission range of b1
 		if checkTransmission(b1, n1):
 			b1.addNodes(n1)
-			return true
+			return True
 			
 
 
@@ -112,41 +112,48 @@ class Grid():
 					self.DISTANCES[node] = {}
 					self.DISTANCES[node][neighbor] = self.distanceFormula(node, neighbor)
 
-		print(self.DISTANCES)
-
-		#NODES - list of all nodes in grid
-		#dictionary that is updated periodically with shortest distances from each node
-		unvisited = {node: None for node in self.NODES} #using None as +inf
-
-		#dictionary that stores which nodes are visited already
-		visited = {}
-
-		#current =  user decides to be the start node through Everything class
-		current = n1
-
-		#destinationNode = n2 (User inputted through Everything class)
-		destinationNode = n2
-		currentDistance = 0
-		unvisited[current] = currentDistance
-
-		#Dijkstra's algorithm
-		while True:
-		    for neighbour, distance in self.DISTANCES[current].items():
-		        if neighbour not in unvisited: continue
-		        newDistance = currentDistance + distance
-		        if unvisited[neighbour] is None or unvisited[neighbour] > newDistance:
-		            unvisited[neighbour] = newDistance
-		    visited[current] = currentDistance
-		    del unvisited[current]
-		    if not unvisited: break
-		    candidates = [node for node in unvisited.items() if node[1]]
-		    current, currentDistance = sorted(candidates, key = lambda x: x[1])[0]
-
-		#If destinationNode is not in visited, there is no route available
-		if destinationNode not in visited:
-			print("No route found!")
+		#If there are no nodes in range of the source node
+		if len(self.DISTANCES) == 0:
+			print("No nodes in range")
+		
+		#If there ARE nodes within range of the source node
 		else:
-			print("Route established")
+			print(self.DISTANCES)
+			print("Hi")
+
+			#NODES - list of all nodes in grid
+			#dictionary that is updated periodically with shortest distances from each node
+			unvisited = {node: None for node in self.NODES} #using None as +inf
+
+			#dictionary that stores which nodes are visited already
+			visited = {}
+
+			#current =  user decides to be the start node through Everything class
+			current = n1
+
+			#destinationNode = n2 (User inputted through Everything class)
+			destinationNode = n2
+			currentDistance = 0
+			unvisited[current] = currentDistance
+
+			#Dijkstra's algorithm
+			while True:
+			    for neighbour, distance in self.DISTANCES[current].items():
+			        if neighbour not in unvisited: continue
+			        newDistance = currentDistance + distance
+			        if unvisited[neighbour] is None or unvisited[neighbour] > newDistance:
+			            unvisited[neighbour] = newDistance
+			    visited[current] = currentDistance
+			    del unvisited[current]
+			    if not unvisited: break
+			    candidates = [node for node in unvisited.items() if node[1]]
+			    current, currentDistance = sorted(candidates, key = lambda x: x[1])[0]
+
+			#If destinationNode is not in visited, there is no route available
+			if destinationNode not in visited:
+				print("No route found!")
+			else:
+				print("Route established")
 
 
 

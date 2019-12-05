@@ -22,8 +22,8 @@ NODE_RADIUS = 20
 #User inputted radius for base stations
 BASE_STATION_RADIUS = 30
 
-#Randomly generated number of nodes, ranging from 1-10
-numOfNodes = random.randrange(1, 10)
+#Randomly generated number of nodes, ranging from 2-10
+numOfNodes = random.randrange(2, 10)
 
 #Randomly generated number of Base Stations, ranging from 1 - 5
 numOfBaseStations = random.randrange(1, 5)
