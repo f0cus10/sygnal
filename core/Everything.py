@@ -7,47 +7,34 @@ from collections import defaultdict
 import sys 
 import random
 
-# 2D array 
-rows, cols = (100, 100) 
-GRID = [[0 for i in range(cols)] for j in range(rows)] 
-#print(arr)
+# #User input number of channels, ranging from 5 - 10
+# numOfChannels = 6
 
-#User inputted radius for nodes
-NODE_RADIUS = 4
+def generate_grid(param_dict):
+	'''
+	@params param_dict contains the relevant parameters necessary to generate the grid
+	'''
+	#generate a zero 2D array
+	rows, cols = (100, 100)
+	GRID = [[0 for i in range(cols)] for j in range(rows)]
 
-#User inputted radius for base stations
-BASE_STATION_RADIUS = 10
-
-#Randomly generated number of nodes, ranging from 1-10
-numOfNodes = random.randrange(1, 10)
-
-#Randomly generated number of Base Stations, ranging from 1 - 5
-numOfBaseStations = random.randrange(1, 5)
-
-#User input number of channels, ranging from 5 - 10
-numOfChannels = 6
-
-#Randomly plot nodes onto GRID
-for node in range(numOfNodes):
-	x = random.randrange(0,99)
-	y = random.randrange(0,99)
-	while GRID[x][y] != 0:
+	#Randomly plot nodes onto GRID
+	for node in range(param_dict['num_nodes']):
 		x = random.randrange(0,99)
 		y = random.randrange(0,99)
-	GRID[x][y] = Node(x, y, node, NODE_RADIUS)
-
-
- #Randomly plot base stations onto GRID
-for base in range(numOfBaseStations):
-	x = random.randrange(0,99)
-	y = random.randrange(0,99)
-	while GRID[x][y] != 0:
+		while GRID[x][y] != 0:
+			x = random.randrange(0,99)
+			y = random.randrange(0,99)
+		GRID[x][y] = Node(x, y, node, param_dict['NODE_RADIUS'])
+	
+	#Randomly plot base stations onto GRID
+	for base in range(param_dict['num_stations']):
 		x = random.randrange(0,99)
 		y = random.randrange(0,99)
-	GRID[x][y] = baseStation(x, y, base, BASE_STATION_RADIUS)
+		while GRID[x][y] != 0:
+			x = random.randrange(0,99)
+			y = random.randrange(0,99)
+		GRID[x][y] = baseStation(x, y, base, param_dict['BASE_STATION_RADIUS'])
+		
 
-
-print(GRID)
-
-
-
+	return GRID
