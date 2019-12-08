@@ -2,21 +2,23 @@ import React, { Component } from "react";
 import logo from './logo.svg';
 import "./App.css";
 import Form from "./Form";
-import { Graph } from "react-d3-graph";
+import { XYPlot, CustomSVGSeries, LineSeries} from 'react-vis';
 
 class App extends Component {
 state = {
   fields: {},
   gridData : [],
   gridId: null,
-  data: {
-    nodes: [ 
-    { id: "BS1", symbolType: "triangle"}, { id: "BS2", symbolType: "triangle"}, 
-    { id: "Node1"}, { id: "Node2"}, { id: "Node3"}, { id: "Node4"}],
-    links: [
-    { source: "BS1", target: "Node1" }, { source: "BS1", target: "Node3" },
-    { source: "BS2", target: "Node2" }, { source: "BS2", target: "Node4" }]
-  }
+  data: [
+  {x: 10, y: 20, customComponent: 'circle', size: 20, style: {fill:'orange'}},
+  {x: 40, y: 20 , customComponent: 'circle', size: 20, style: {fill:'orange'}},
+  {x: 70, y: 50, customComponent: 'square', size: 20},
+  {x: 55, y: 15, customComponent: 'square', size: 20}
+  ],
+  connectionData: [
+    {x: 70, y: 50},
+    {x: 55, y: 15}
+  ]
 
 };
 
@@ -35,10 +37,10 @@ render () {
         <p>
         {JSON.stringify(this.state.fields, null, 2)}
         </p>
-        <Graph
-          id="graph-id"
-          data={this.state.data}
-        />
+        <XYPlot width={300} height={300}>
+          <CustomSVGSeries data = {this.state.data}/>
+          <LineSeries data = {this.state.connectionData}/>
+        </XYPlot>
     </div>
   );
   }
