@@ -2,43 +2,42 @@ import React, { Component } from "react";
 import logo from './logo.svg';
 import "./App.css";
 import Form from "./Form";
-import { Graph } from "react-d3-graph";
+import { XYPlot, CustomSVGSeries, LineSeries} from 'react-vis';
+import { grid } from "./files/grid.json";
+import { connections } from "./files/connections.json";
+import lineSeries from "react-vis/dist/plot/series/line-series";
+
+/*** what i need to do:
+-axios for GET request of nodes and BS
+-axios for GET request for connections
+-need an API call to post to a JSON file for source & destination links
+-figure out how to use the SVG component
+-need to parse through the data from GET request to produce the JSON
+ ***/
 
 class App extends Component {
 state = {
+  gridData : [],
   fields: {},
-  data: {
-    nodes: [ 
-    { id: "BS1", symbolType: "triangle"}, { id: "BS2", symbolType: "triangle"}, 
-    { id: "Node1"}, { id: "Node2"}, { id: "Node3"}, { id: "Node4"}],
-    links: [
-    { source: "BS1", target: "Node1" }, { source: "BS1", target: "Node3" },
-    { source: "BS2", target: "Node2" }, { source: "BS2", target: "Node4" }]
-  }
-
+  gridId: null,
 };
 
-  onSubmit = updatedValue => {
-    this.setState({
-      fields: {
-      ...this.state.fields,
-      ...updatedValue
-      }
-    });
-  };
 
 render () {
   return (
     <div className="App">
-      <Form onChange={fields => this.onSubmit(fields)}/>
+      <Form updateGrid={this.formSubmit} />
         <p>
         {JSON.stringify(this.state.fields, null, 2)}
         </p>
-        graph will go here
-        <Graph
-          id="graph-id"
-          data={this.state.data}
-        />
+        <XYPlot width={300} height={300}>
+          <CustomSVGSeries data = {grid}/>
+          {Object.values(connections).map((index) => {
+            return(
+              <LineSeries data={index}/>
+            )
+          })}
+        </XYPlot>
     </div>
   );
   }
