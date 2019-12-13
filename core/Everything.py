@@ -21,7 +21,7 @@ LOGICAL_GRID = Grid()
 NODE_RADIUS = 20
 
 #User inputted radius for base stations
-BASE_STATION_RADIUS = 30
+BASE_STATION_RADIUS = 100
 
 #Randomly generated number of nodes, ranging from 2-10
 numOfNodes = random.randrange(2, 10)
@@ -81,18 +81,21 @@ for base in range(numOfBaseStations):
 	LOGICAL_GRID.BASESTATIONS.append(tmpBS)
 	j+=1
 
-#w = 0
+BSNodes = {}
 for base in LOGICAL_GRID.BASESTATIONS:
 	for node in LOGICAL_GRID.NODES:
 		if LOGICAL_GRID.addNodeToBaseStation(base, node) == True:
 			# print(node)
 			# print(base)
+			BSNodes[base].append(node)
 			print("ADDED")
 		else :
 			#print('none')
-			#w = w + 1
 			print("NOT ADDED")
-	print(base.nodes)
+	
+	#print(base.nodes)
+
+print(BSNodes)
 
 
 LOGICAL_GRID.route(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
