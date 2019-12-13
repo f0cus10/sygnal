@@ -11,5 +11,3 @@ class Node():
 		self.radius = radius
 
 
-
-

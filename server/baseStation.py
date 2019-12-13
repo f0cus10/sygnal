@@ -12,8 +12,3 @@ class baseStation():
 		self.ID = ID
 		self.radius = radius
 		self.nodes = []
-
-
-	#add nodes to nodes
-	def addNodes(n1):
-		nodes.append(n1) 
