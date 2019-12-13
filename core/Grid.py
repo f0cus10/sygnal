@@ -32,7 +32,7 @@ class Grid():
 	def addNodeToBaseStation(self, b1 , n1):
 		#Checking if n1 is within transmission range of b1
 		# if ((b1.x1 + b1.radius) < (n1.x1) and (b1.y1 + b1.radius) < (n1.y1)) or ((b1.x1 - b1.radius) > (n1.x1) and (b1.y1 - b1.radius) > (n1.y1)) == True:
-		if self.checkBaseStations(b1, n1) == 1 :	
+		if self.checkBaseStations(b1, n1) == 1 or self.checkBaseStations(b1, n1) == 0 :	
 			b1.nodes.append(n1)
 			return True
 		else :
@@ -67,9 +67,9 @@ class Grid():
 
 		baseRoute = []
 		for base in self.BASESTATIONS :
-			if n1 in base.nodes == True :
+			if (n1 in base.nodes) == True :
 				baseRoute.append(base)
-			if n2 in base.nodes == True :
+			if (n2 in base.nodes) == True :
 				baseRoute.append(base)
 
 		if len(baseRoute) == 0 :

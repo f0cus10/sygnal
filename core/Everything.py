@@ -18,10 +18,10 @@ GRID = [[0 for i in range(cols)] for j in range(rows)]
 LOGICAL_GRID = Grid()
 
 #User inputted radius for nodes
-NODE_RADIUS = 100
+NODE_RADIUS = 10
 
 #User inputted radius for base stations
-BASE_STATION_RADIUS = 50
+BASE_STATION_RADIUS = 30
 
 #Randomly generated number of nodes, ranging from 2-10
 numOfNodes = random.randrange(2, 10)
