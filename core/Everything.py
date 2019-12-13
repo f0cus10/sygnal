@@ -18,7 +18,7 @@ GRID = [[0 for i in range(cols)] for j in range(rows)]
 LOGICAL_GRID = Grid()
 
 #User inputted radius for nodes
-NODE_RADIUS = 10
+NODE_RADIUS = 20
 
 #User inputted radius for base stations
 BASE_STATION_RADIUS = 30
@@ -81,16 +81,17 @@ for base in range(numOfBaseStations):
 	LOGICAL_GRID.BASESTATIONS.append(tmpBS)
 	j+=1
 
-w = 0
+#w = 0
 for base in LOGICAL_GRID.BASESTATIONS:
 	for node in LOGICAL_GRID.NODES:
 		if LOGICAL_GRID.addNodeToBaseStation(base, node) == True:
-			print(node)
-			print(base)
-			print('suffering')
+			# print(node)
+			# print(base)
+			print("ADDED")
 		else :
-			print('none')
-			w = w + 1
+			#print('none')
+			#w = w + 1
+			print("NOT ADDED")
 	print(base.nodes)
 
 

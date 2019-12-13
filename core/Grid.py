@@ -32,7 +32,7 @@ class Grid():
 	def addNodeToBaseStation(self, b1 , n1):
 		#Checking if n1 is within transmission range of b1
 		# if ((b1.x1 + b1.radius) < (n1.x1) and (b1.y1 + b1.radius) < (n1.y1)) or ((b1.x1 - b1.radius) > (n1.x1) and (b1.y1 - b1.radius) > (n1.y1)) == True:
-		if self.checkBaseStations(b1, n1) == 1 or self.checkBaseStations(b1, n1) == 0 :	
+		if self.nodeInBaseStation(b1, n1) == True :	
 			b1.nodes.append(n1)
 			return True
 		else :
@@ -60,6 +60,19 @@ class Grid():
 		else:
 				return 0 
 
+	#Check if n1 is in b1's transmission range
+	def nodeInBaseStation(self, b1, n1):
+		x = (n1.x1 - b1.x1)**2
+		y = (n1.y1 - b1.y1)**2
+
+		newRadius = b1.radius**2
+
+		if ((x + y) < newRadius):
+			return True
+		else:
+			return False
+
+
 	#Route Establishment Algorithm
 	#n1 - source
 	#n2 - destination
@@ -69,11 +82,18 @@ class Grid():
 		for base in self.BASESTATIONS :
 			if (n1 in base.nodes) == True :
 				baseRoute.append(base)
+				break
+
+		for base in self.BASESTATIONS :
 			if (n2 in base.nodes) == True :
 				baseRoute.append(base)
+				break
 
 		if len(baseRoute) == 0 :
 			print("No Route")
+		elif len(baseRoute) == 2:
+			print(baseRoute)
+			print("Only 2")
 		else :
 			print("Hello World")
 
