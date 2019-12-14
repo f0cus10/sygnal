@@ -4,7 +4,7 @@ import Node
 import baseStation
 import math
 from collections import defaultdict 
-import sys 
+import sys
 
 class Grid():
 
@@ -51,8 +51,9 @@ class Grid():
 	def checkBaseStations(self, b1, b2):
 		x = (b2.x1 - b1.x1)**2
 		y = (b2.y1 - b1.y1)**2 
-		dist = math.sqrt(x + y)
-		radSumSq = (b1.radius + b2.radius) * (b1.radius + b2.radius);  
+		#dist = math.sqrt(x + y)
+		dist = (x + y)
+		radSumSq = (b1.radius + b2.radius) ** 2
 		if (dist == radSumSq):
 				return 1 
 		elif (dist > radSumSq):

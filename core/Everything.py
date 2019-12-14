@@ -9,6 +9,43 @@ import random
 import numpy as np
 from Grid import Grid
 
+#Class to represent adj list of te node
+class AdjNode:
+  def __init__(self, data):
+    self.vertex = data
+    self.next = None
+
+#class to represent graph
+# size = number of vertices
+class Graph:
+  def __init__(self, vertices):
+    self.V = vertices
+    self.graph = [None] * self.V
+
+  def addEdge(self,src,dest):
+    # node = AdjNode(dest)
+    # node.next = self.graph[src] 
+    # self.graph[src] = node 
+
+    # Adding the source node to the destination as 
+    # it is the undirected graph 
+    node = AdjNode(src) 
+    node.next = self.graph[dest] 
+    self.graph[dest] = node 
+
+  # Function to print the graph 
+  def printGraph(self): 
+    for i in range(self.V): 
+      print("Adjacency list of vertex {}\n head".format(i), end="") 
+      temp = self.graph[i] 
+      while temp: 
+        print(" -> {}".format(temp.vertex), end="") 
+        temp = temp.next
+      print(" \n")
+
+
+
+
 # 2D array 
 rows, cols = (100, 100) 
 GRID = [[0 for i in range(cols)] for j in range(rows)] 
@@ -21,11 +58,13 @@ LOGICAL_GRID = Grid()
 NODE_RADIUS = 20
 
 #User inputted radius for base stations
-BASE_STATION_RADIUS = 100
+BASE_STATION_RADIUS = 15
 
 #Randomly generated number of nodes, ranging from 2-10
 numOfNodes = random.randrange(2, 10)
 print(numOfNodes)
+
+graph = Graph(numOfNodes)
 
 #Randomly generated number of Base Stations, ranging from 1 - 5
 numOfBaseStations = random.randrange(1, 5)
@@ -54,7 +93,7 @@ while k < numOfChannels :
 #Sorts the dictionary using the value (probability)
 LOGICAL_GRID.UNUSED_CHANNELS = sorted(LOGICAL_GRID.UNUSED_CHANNELS.items(), key=lambda x: x[1])
 
-i = 1
+i = 0
 #Randomly plot nodes onto GRID
 for node in range(numOfNodes):
 	x = random.randrange(0,99)
@@ -81,13 +120,29 @@ for base in range(numOfBaseStations):
 	LOGICAL_GRID.BASESTATIONS.append(tmpBS)
 	j+=1
 
-BSNodes = {}
+for m in LOGICAL_GRID.NODES:
+	for n in LOGICAL_GRID.NODES:
+		if m == n :
+			#print("poopie")
+			continue
+		else :
+			if LOGICAL_GRID.checkBaseStations(m, n) == 0 or LOGICAL_GRID.checkBaseStations(m, n) == 1:
+				graph.addEdge(m.ID, n.ID)
+
+for node in LOGICAL_GRID.NODES:
+	print("NODE ID BELOW")
+	print(node.ID)
+	print(node.x1)
+	print (node.y1)
+	print(node.radius)
+
+#BSNodes = {}
 for base in LOGICAL_GRID.BASESTATIONS:
 	for node in LOGICAL_GRID.NODES:
 		if LOGICAL_GRID.addNodeToBaseStation(base, node) == True:
 			# print(node)
 			# print(base)
-			BSNodes[base].append(node)
+			#BSNodes[base].append(node)
 			print("ADDED")
 		else :
 			#print('none')
@@ -95,10 +150,12 @@ for base in LOGICAL_GRID.BASESTATIONS:
 	
 	#print(base.nodes)
 
-print(BSNodes)
+#print(BSNodes)
 
 
 LOGICAL_GRID.route(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
+
+graph.printGraph()
 
 # #Updates n1's neighbors based on transmission range and coordinates
 # def getNeighbors(n1):
