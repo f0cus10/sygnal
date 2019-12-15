@@ -26,12 +26,15 @@ class Graph:
     # node = AdjNode(dest)
     # node.next = self.graph[src] 
     # self.graph[src] = node 
-
     # Adding the source node to the destination as 
     # it is the undirected graph 
     node = AdjNode(src) 
     node.next = self.graph[dest] 
     self.graph[dest] = node 
+
+  def poopie(self):
+    print("poopie")
+ 
 
   # Function to print the graph 
   def printGraph(self): 
@@ -44,6 +47,28 @@ class Graph:
       print(" \n")
 
 
+
+def BFS(start, goal):
+	explored = []
+	queue = [[start]]
+
+	if start == goal:
+	  return "Start = goal"
+
+	while queue:
+
+	  path = queue.pop(0)
+	  node = path[-1]
+	  if node not in explored:
+	    neighbours = NODE_DICTIONARY[node]
+	    for neighbor in neighbours:
+	      new_path = list(path)
+	      new_path.append(neighbor)
+	      queue.append(new_path)
+	      if neighbor == goal:
+	        return new_path
+	    explored.append(node)
+	return "No path!"
 
 
 # 2D array 
@@ -120,6 +145,10 @@ for base in range(numOfBaseStations):
 	LOGICAL_GRID.BASESTATIONS.append(tmpBS)
 	j+=1
 
+NODE_DICTIONARY = {}
+for i in range(numOfNodes):
+	NODE_DICTIONARY[i] = []
+
 for m in LOGICAL_GRID.NODES:
 	for n in LOGICAL_GRID.NODES:
 		if m == n :
@@ -128,13 +157,17 @@ for m in LOGICAL_GRID.NODES:
 		else :
 			if LOGICAL_GRID.checkBaseStations(m, n) == 0 or LOGICAL_GRID.checkBaseStations(m, n) == 1:
 				graph.addEdge(m.ID, n.ID)
+				NODE_DICTIONARY[m.ID].append(n.ID)
 
-for node in LOGICAL_GRID.NODES:
-	print("NODE ID BELOW")
-	print(node.ID)
-	print(node.x1)
-	print (node.y1)
-	print(node.radius)
+print(NODE_DICTIONARY)
+
+
+# for node in LOGICAL_GRID.NODES:
+# 	print("NODE ID BELOW")
+# 	print(node.ID)
+# 	print(node.x1)
+# 	print (node.y1)
+# 	print(node.radius)
 
 #BSNodes = {}
 for base in LOGICAL_GRID.BASESTATIONS:
@@ -143,38 +176,22 @@ for base in LOGICAL_GRID.BASESTATIONS:
 			# print(node)
 			# print(base)
 			#BSNodes[base].append(node)
-			print("ADDED")
-		else :
+			#print("ADDED")
+			continue
+		#else :
 			#print('none')
-			print("NOT ADDED")
+			#print("NOT ADDED")
 	
 	#print(base.nodes)
 
+#Shortest path from source to destination node being printed as a list
+print(BFS(1, 2))
 #print(BSNodes)
 
 
-LOGICAL_GRID.route(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
+#LOGICAL_GRID.route(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
 
-graph.printGraph()
+#graph.printGraph()
+#print("AFTER GRAPH IS PRINTED")
+#graph.BFS(LOGICAL_GRID.NODES[0].ID, LOGICAL_GRID.NODES[1].ID)
 
-# #Updates n1's neighbors based on transmission range and coordinates
-# def getNeighbors(n1):
-# 	for node in LOGICAL_GRID.NODES:
-# 		#don't want to compare n1 in NODES to itself
-# 		if n1 != node:
-# 			#if node is within range, add to nodes list of neighbors
-# 			if LOGICAL_GRID.distanceFormula(n1, node) <= n1.radius:
-# 				n1.NodesInRange.append(node)
-
-
-# #After accessing all the nodes and base stations, we need to update the neighbors for each node
-# for node in LOGICAL_GRID.NODES:
-# 	getNeighbors(node)
-
-# k = 0
-# for node in LOGICAL_GRID.NODES:
-# 	print(LOGICAL_GRID.NODES[k].NodesInRange)
-# 	k+=1
-
-
-#LOGICAL_GRID.dijkstra(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
