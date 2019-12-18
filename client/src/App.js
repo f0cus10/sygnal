@@ -1,32 +1,21 @@
 import React, { Component } from "react";
-import logo from './logo.svg';
-import "./App.css";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Form from "./Form";
-import { BrowserRouter as Router } from "react-router-dom";
+import Graph from "./Graph";
+import "./App.css";
 
 class App extends Component {
-state = {
-  fields: {}
-};
-
-  onSubmit = updatedValue => {
-    this.setState({
-      fields: {
-      ...this.state.fields,
-      ...updatedValue
-      }
-    });
-  };
 
 render () {
   return (
-    <div className="App">
-      <Form onChange={fields => this.onSubmit(fields)}/>
-        <p>
-        {JSON.stringify(this.state.fields, null, 2)}
-        </p>
-    </div>
-  );
+    <BrowserRouter>
+    <Switch>
+      <Route path="/" component={Form} exact />
+      <Route path="/data" component={Graph} exact />
+      <Route component={Error} />
+    </Switch>
+    </BrowserRouter>
+    );
   }
 }
 
