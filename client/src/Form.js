@@ -22,9 +22,9 @@ onSubmit = async(e) => {
   const response = result.data;
   console.log(response);
   //this.props.updateGrid(response)
-  this.setState({
-      numChannels: "",
-      });
+  // this.setState({
+  //     numChannels: "",
+  //     });
 
 };
 
@@ -44,7 +44,7 @@ render () {
     <br />
     <button onSubmit={e => this.onSubmit(e)}>Submit</button>
   </form>
-</div>
-    );
+  </div>
+  );
   }
 }
