@@ -3,15 +3,22 @@ import axios from "axios";
 import "./App.css";
 
 export default class Form extends React.Component {
-  state = {
-    numChannels: "",
-  };
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {numChannels: ""};
+  }
 
-
-change = e => {
+Change(e){
+  this.setState({numChannels: e});
+  console.log(this.state.numChannels);
+}
+  
+handleChange = e => {
   this.setState({
     [e.target.name]: e.target.value
   });
+  console.log(this.state.numChannels);
 };
 
 onSubmit = async(e) => {
@@ -29,6 +36,7 @@ onSubmit = async(e) => {
 };
 
 render () {
+  const numChannels = this.props.numChannels;
 
   return (
   <div className = "wrapper">
@@ -38,8 +46,8 @@ render () {
     <input
     name = "numChannels"
     placeholder="Number of channels"
-    value={this.state.numChannels}
-    onChange={e => this.change(e)}
+    value={numChannels}
+    onChange={this.handleChange}
     />
     <br />
     <button onClick={e => this.onSubmit(e)}>Submit</button>
