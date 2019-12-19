@@ -27,7 +27,8 @@ onSubmit = async(e) => {
   e.preventDefault();
   const { SourceNode } = this.state;
   const { DestinationNode } = this.state;
-
+  console.log(SourceNode);
+  console.log(DestinationNode);
   const result = await axios.post('/submitform', {SourceNode, DestinationNode});
   const response = result.data;
   console.log(response);
@@ -43,9 +44,6 @@ onSubmit = async(e) => {
 render () {
   return (
     <div className="App">
-        <p>
-        {JSON.stringify(this.state.fields, null, 2)}
-        </p>
         <XYPlot width={300} height={300}>
           <CustomSVGSeries data = {grid}/>
           {Object.values(connections).map((index) => {
@@ -70,7 +68,7 @@ render () {
         onChange={e => this.change(e)}
         />
           <br />
-          <button onSubmit={e => this.onSubmit(e)}>Submit</button>
+          <button onClick={e => this.onSubmit(e)}>Submit</button>
         </form>
 
     </div>
