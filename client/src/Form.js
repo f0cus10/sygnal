@@ -42,7 +42,7 @@ render () {
     onChange={e => this.change(e)}
     />
     <br />
-    <button onSubmit={e => this.onSubmit(e)}>Submit</button>
+    <button onClick={e => this.onSubmit(e)}>Submit</button>
   </form>
   </div>
   );
