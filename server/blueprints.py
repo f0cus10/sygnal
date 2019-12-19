@@ -1,7 +1,9 @@
-import uuid
+# import uuid
 from flask import Blueprint, jsonify, request
-from db import database
-from grid_interface import generate_grid
+# from db import database
+# from grid_interface import generate_grid
+
+import json 
 
 main = Blueprint('main', __name__)
 
@@ -13,15 +15,21 @@ def grid():
     if 'numChannels' not in form_data.keys():
         return jsonify({ 'error': 'Insufficient arguments' }), 200
     
-    grid_id = uuid.uuid1()
-    storage_grid, res_grid = generate_grid()
+    # grid_id = uuid.uuid1()
+    # storage_grid, res_grid = generate_grid()
 
-    database[grid_id] = storage_grid
+    # database[grid_id] = storage_grid
 
-    return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
+    # return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
+    with open('./dummy/grid.json') as json_file:
+        data = json.load(json_file)
+        return jsonify(data)
 
 
 @main.route('/getroute', methods=['GET'])
 def getRoute():
-
-    return jsonify(database)
+    source_dest_data = request.get_json()
+    print(source_dest_data)
+    with open('./dummy/connections.json') as json_file:
+        data = json.load(json_file)
+        return jsonify(data)

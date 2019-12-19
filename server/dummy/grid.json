@@ -1,0 +1,32 @@
+{ "grid" : [
+    {
+        "x": 10,
+        "y": 20,
+        "customComponent": "circle",
+        "size": 20,
+        "style": {
+            "fill": "orange"
+        }
+    },
+    {
+        "x": 40,
+        "y": 20 ,
+        "customComponent": "circle",
+        "size": 20,
+        "style": {
+            "fill": "orange"
+        }
+    },
+    {
+        "x": 70,
+        "y": 50,
+        "customComponent": "square",
+        "size": 20
+    },
+    {
+        "x": 55,
+        "y": 15,
+        "customComponent": "square",
+        "size": 20}
+]
+}
