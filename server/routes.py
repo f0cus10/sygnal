@@ -17,12 +17,15 @@ def grid():
     #check if the args are valid first
     if 'numChannels' not in form_data.keys():
         return jsonify({ 'error': 'Insufficient arguments' }), 200
-    elif form_data['numChannels'] < 5 or form_data['numChannels'] > 10:
+    
+    num_channels = int(form_data['numChannels'])
+
+    if (num_channels < 5) or (num_channels > 10):
         return jsonify({'error': 'Channel number out of range'}), 200
     
     # generate new grid
     grid_id = uuid.uuid1()
-    resolve_grid, storage_grid = generate_grid(form_data['numChannels'])
+    resolve_grid, storage_grid = generate_grid(num_channels)
     database[grid_id] = storage_grid
     # TODO: make the return based on JSONified graph
     return resolve(grid_id, resolve_grid), 201
