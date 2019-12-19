@@ -107,9 +107,3 @@ def generate_grid(num_channels):
 	
 	# TODO: Figure out the rest of the returning values
 	return resultant_grid_map, SHADOW_GRID
-	
-	
-
-result, shadow = generate_grid(4)
-
-print(result)
