@@ -15,7 +15,16 @@ state = {
   gridId: null,
   SourceNode: "",
   DestinationNode: "",
+  gridG: [],
 };
+
+getGridData() {
+}
+
+getConnectionData(){
+  
+}
+
 
 change = e => {
   this.setState({
@@ -23,15 +32,22 @@ change = e => {
   });
 };
 
+getConnectionData() {
+  console.log(Object.values(connections));
+}
+
 onSubmit = async(e) => {
   e.preventDefault();
   const { SourceNode } = this.state;
   const { DestinationNode } = this.state;
   console.log(SourceNode);
   console.log(DestinationNode);
+  //this.getGridData();
+  //this.getConnectionData();
   const result = await axios.post('/submitform', {SourceNode, DestinationNode});
   const response = result.data;
   console.log(response);
+  
   //this.props.updateGrid(response)
   this.setState({
       SourceNode: "",
