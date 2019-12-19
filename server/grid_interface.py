@@ -3,10 +3,10 @@
 import random
 import numpy as np
 
-from server.Grid import Grid
-from server.Everything import Graph
-from server.Node import Node
-from server.baseStation import baseStation
+from Grid import Grid
+from graph import Graph
+from Node import Node
+from baseStation import baseStation
 
 def __nodePlotter(num_nodes, radius, channels, grid, shadow_grid):
 	'''
@@ -54,11 +54,11 @@ def generate_grid(num_channels):
 
 	node_radius = 17
 	base_station_radius = 15
-	num_nodes = random.randrange(1,5)
+	num_nodes = random.randrange(2,5)
 	num_base_stations = random.randrange(1,5)
 	
-	print("Number of Nodes: " + str())
-	print("Number of Base Stations: " + str())
+	print("Number of Nodes: " + str(num_nodes))
+	print("Number of Base Stations: " + str(num_base_stations))
 
 	storage_graph = Graph(num_nodes)
 
@@ -90,8 +90,8 @@ def generate_grid(num_channels):
 	for i in range(num_nodes):
 		node_dict[i] = []
 	
-	for m in SHADOW_GRID:
-		for n in SHADOW_GRID:
+	for m in SHADOW_GRID.NODES:
+		for n in SHADOW_GRID.NODES:
 			if not m == n and SHADOW_GRID.checkTransmission(m, n) in [0,1]:
 				node_dict[m.ID].append(n.ID)
 				continue
@@ -110,3 +110,6 @@ def generate_grid(num_channels):
 	
 	
 
+result, shadow = generate_grid(4)
+
+print(result)
