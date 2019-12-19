@@ -135,7 +135,6 @@ for i in range(numOfNodes):
 for m in LOGICAL_GRID.NODES:
 	for n in LOGICAL_GRID.NODES:
 		if m == n :
-			#print("poopie")
 			continue
 		else :
 			if LOGICAL_GRID.checkTransmission(m, n) == 0 or LOGICAL_GRID.checkTransmission(m, n) == 1:
