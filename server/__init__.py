@@ -2,7 +2,7 @@
 
 from flask import Flask
 
-from blueprints import main
+from routes import main
 
 app = Flask(__name__)
 

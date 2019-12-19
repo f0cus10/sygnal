@@ -1,7 +1,9 @@
 # import uuid
 from flask import Blueprint, jsonify, request
-# from db import database
-# from grid_interface import generate_grid
+
+from db import database
+from gridGeneration import generate_grid
+from gridResolution import resolve
 
 import json 
 
@@ -11,14 +13,18 @@ main = Blueprint('main', __name__)
 def grid():
     form_data = request.get_json()
     print(form_data)
+
     #check if the args are valid first
     if 'numChannels' not in form_data.keys():
         return jsonify({ 'error': 'Insufficient arguments' }), 200
+    elif form_data['numChannels'] < 5 or form_data['numChannels'] > 10:
+        return jsonify({'error': 'Channel number out of range'}), 200
     
-    # grid_id = uuid.uuid1()
-    # storage_grid, res_grid = generate_grid()
-
-    # database[grid_id] = storage_grid
+    # generate new grid
+    grid_id = uuid.uuid1()
+    resolve_grid, storage_grid = generate_grid(form_data['numChannels'])
+    database[grid_id] = storage_grid
+    # TODO: make the return based on JSONified graph
 
     # return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
     with open('./dummy/grid.json') as json_file:
