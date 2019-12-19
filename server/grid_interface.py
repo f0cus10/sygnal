@@ -5,12 +5,42 @@ import numpy as np
 
 from server.Grid import Grid
 from server.Everything import Graph
+from server.Node import Node
+from server.baseStation import baseStation
 
-def __nodePlotter(num_nodes, grid, shadow_grid):
-	pass
+def __nodePlotter(num_nodes, radius, channels, grid, shadow_grid):
+	'''
+	Randomly plots nodes onto grid and shadow_grid and then returns them
+	'''
+	id_counter = 0
+	for node in range(num_nodes):
+		x = random.randrange(0,99)
+		y = random.randrange(0,99)
+		while grid[x][y] is not 0:
+			x = random.randrange(0,99)
+			y = random.randrange(0,99)
+		tmpNode = Node(x, y, id_counter, radius, channels[:])
+		grid[x][y] = tmpNode
+		shadow_grid.NODES.append(tmpNode)
+		id_counter += 1
+	return grid, shadow_grid
 
-def __basePlotter(num_bases, grid, shadow_grid):
-	pass
+def __basePlotter(num_bases, radius, grid, shadow_grid):
+	'''
+	Randomly plots basestations onto the grid and shadow_grid and then returns
+	'''
+	base_counter = 0
+	for base in range(num_bases):
+		x = random.randrange(0,99)
+		y = random.randrange(0,99)
+		while grid[x][y] is not 0:
+			x = random.randrange(0,99)
+			y = random.randrange(0,99)
+		tmpBs = baseStation(x, y, base_counter, radius)
+		grid[x][y] = tmpBs
+		shadow_grid.BASESTATIONS.append(tmpBs)
+
+	return grid, shadow_grid
 
 def generate_grid(num_channels):
 	'''
@@ -52,8 +82,8 @@ def generate_grid(num_channels):
 	print("List of channels (in order): ")
 	print(channel_list)
 
-	resultant_grid_map, SHADOW_GRID = __nodePlotter(num_nodes, resultant_grid_map, SHADOW_GRID)
-	resultant_grid_map, SHADOW_GRID = __basePlotter(num_nodes, resultant_grid_map, SHADOW_GRID)
+	resultant_grid_map, SHADOW_GRID = __nodePlotter(num_nodes, node_radius, resultant_grid_map, SHADOW_GRID)
+	resultant_grid_map, SHADOW_GRID = __basePlotter(num_nodes, base_station_radius, resultant_grid_map, SHADOW_GRID)
 
 	# Associations between nodes
 	node_dict = {}
