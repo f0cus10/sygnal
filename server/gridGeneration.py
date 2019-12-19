@@ -39,6 +39,7 @@ def __basePlotter(num_bases, radius, grid, shadow_grid):
 		tmpBs = baseStation(x, y, base_counter, radius)
 		grid[x][y] = tmpBs
 		shadow_grid.BASESTATIONS.append(tmpBs)
+		base_counter += 1
 
 	return grid, shadow_grid
 

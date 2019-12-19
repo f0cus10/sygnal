@@ -1,11 +1,11 @@
-# import uuid
+import uuid
+
 from flask import Blueprint, jsonify, request
+import json
 
 from db import database
 from gridGeneration import generate_grid
 from gridResolution import resolve
-
-import json 
 
 main = Blueprint('main', __name__)
 
@@ -25,11 +25,7 @@ def grid():
     resolve_grid, storage_grid = generate_grid(form_data['numChannels'])
     database[grid_id] = storage_grid
     # TODO: make the return based on JSONified graph
-
-    # return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
-    with open('./dummy/grid.json') as json_file:
-        data = json.load(json_file)
-        return jsonify(data), 200
+    return resolve(grid_id, resolve_grid), 201
 
 
 @main.route('/getroute', methods=['GET'])
