@@ -82,7 +82,7 @@ def generate_grid(num_channels):
 	print("List of channels (in order): ")
 	print(channel_list)
 
-	resultant_grid_map, SHADOW_GRID = __nodePlotter(num_nodes, node_radius, resultant_grid_map, SHADOW_GRID)
+	resultant_grid_map, SHADOW_GRID = __nodePlotter(num_nodes, node_radius, channel_list, resultant_grid_map, SHADOW_GRID)
 	resultant_grid_map, SHADOW_GRID = __basePlotter(num_nodes, base_station_radius, resultant_grid_map, SHADOW_GRID)
 
 	# Associations between nodes
@@ -104,6 +104,9 @@ def generate_grid(num_channels):
 		for each_node in SHADOW_GRID.NODES:
 			if SHADOW_GRID.addNodeToBaseStation(each_base, each_node):
 				continue
+	
+	# TODO: Figure out the rest of the returning values
+	return resultant_grid_map, SHADOW_GRID
 	
 	
 
