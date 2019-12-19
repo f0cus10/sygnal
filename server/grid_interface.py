@@ -1,22 +1,79 @@
 #grid_interface
 
-import math
-from collections import defaultdict 
-import sys 
 import random
-from Node import Node
-from baseStation import baseStation
+import numpy as np
 
-# #User input number of channels, ranging from 5 - 10
-# numOfChannels = 6
+from server.Grid import Grid
+from server.Everything import Graph
+
+def __nodePlotter(num_nodes, grid, shadow_grid):
+	pass
+
+def __basePlotter(num_bases, grid, shadow_grid):
+	pass
 
 def generate_grid(num_channels):
 	'''
-	@params param_dict contains the relevant parameters necessary to generate the grid
+	@params num_channels contain the # of channels available. 5 <= num_channels <= 10
 	'''
 	# 2D array 
 	rows, cols = (100, 100) 
-	GRID = [[0 for i in range(cols)] for j in range(rows)]
+	resultant_grid_map = [[0 for i in range(cols)] for j in range(rows)]
+
+	SHADOW_GRID = Grid()
+
+	node_radius = 17
+	base_station_radius = 15
+	num_nodes = random.randrange(1,5)
+	num_base_stations = random.randrange(1,5)
+	
+	print("Number of Nodes: " + str())
+	print("Number of Base Stations: " + str())
+
+	storage_graph = Graph(num_nodes)
+
+	#Poisson point distro with lambda set to 80
+	channelPoisson = np.random.poisson(lam=80, size=num_channels)
+
+	#ensures values <1
+	channelPoisson = channelPoisson/100
+
+	channel_list = {}
+
+	#maps channels with probability
+	k = 0
+	while k < num_channels:
+		channel_list[k+1] = channelPoisson[k]
+		k += 1
+	
+	#sorted according to quality
+	channel_list = sorted(channel_list.items(), key=lambda x: x[1])
+
+	print("List of channels (in order): ")
+	print(channel_list)
+
+	resultant_grid_map, SHADOW_GRID = __nodePlotter(num_nodes, resultant_grid_map, SHADOW_GRID)
+	resultant_grid_map, SHADOW_GRID = __basePlotter(num_nodes, resultant_grid_map, SHADOW_GRID)
+
+	# Associations between nodes
+	node_dict = {}
+	for i in range(num_nodes):
+		node_dict[i] = []
+	
+	for m in SHADOW_GRID:
+		for n in SHADOW_GRID:
+			if not m == n and SHADOW_GRID.checkTransmission(m, n) in [0,1]:
+				node_dict[m.ID].append(n.ID)
+				continue
+	
+	print("Node adjacency list: ")
+	print(node_dict)
+
+	# Associations with base stations
+	for each_base in SHADOW_GRID.BASESTATIONS:
+		for each_node in SHADOW_GRID.NODES:
+			if SHADOW_GRID.addNodeToBaseStation(each_base, each_node):
+				continue
 	
 	
 
