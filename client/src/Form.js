@@ -5,7 +5,7 @@ import "./App.css";
 export default class Form extends React.Component {
   state = {
     numChannels: "",
-   };
+  };
 
 
 change = e => {
