@@ -1,6 +1,8 @@
+#Base Station class
+#Xiangmin Mo and Sami Beig
+
 import Node
 
-#Base Station class
 class baseStation():
 
 	#Initialize Base Station class
@@ -12,8 +14,3 @@ class baseStation():
 		self.ID = ID
 		self.radius = radius
 		self.nodes = []
-
-
-	#add nodes to nodes
-	def addNodes(n1):
-		nodes.append(n1) 

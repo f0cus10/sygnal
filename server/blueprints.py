@@ -8,7 +8,7 @@ main = Blueprint('main', __name__)
 @main.route('/submitform', methods=['POST'])
 def grid():
     form_data = request.get_json()
-
+    print(form_data)
     #check if the args are valid first
     if 'numChannels' not in form_data.keys():
         return jsonify({ 'error': 'Insufficient arguments' }), 200
