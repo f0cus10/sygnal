@@ -23,7 +23,7 @@ def grid():
     # return jsonify({'gridID': grid_id, 'grid': res_grid }), 201
     with open('./dummy/grid.json') as json_file:
         data = json.load(json_file)
-        return jsonify(data)
+        return jsonify(data), 200
 
 
 @main.route('/getroute', methods=['GET'])
