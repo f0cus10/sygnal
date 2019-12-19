@@ -1,4 +1,12 @@
+#Xiangmin Mo and Sami Beig
+#------------------------------------------------------------------------------------------------------------------------------------------
 #Everything Class
+#The purpose of this class is to combine all of the classes created thus far (Node, Grid, and baseStation)
+#This class uses numpy to calculate a poisson point distribution to determine channel arrival probability
+#Plots Nodes and baseStation randomly on a 100x100 grid
+#Nodes will gain neighbors based on transmission range
+#Breadth-First Search is also implemented and modified to return the shortest path between two nodes (Unweighted graph is also constructed)
+#------------------------------------------------------------------------------------------------------------------------------------------
 
 from Node import Node
 from baseStation import baseStation
@@ -9,45 +17,14 @@ import random
 import numpy as np
 from Grid import Grid
 
-#Class to represent adj list of te node
-class AdjNode:
-  def __init__(self, data):
-    self.vertex = data
-    self.next = None
-
-#class to represent graph
-# size = number of vertices
+#class to represent the graph
+#vertices = number of vertices
 class Graph:
   def __init__(self, vertices):
     self.V = vertices
     self.graph = [None] * self.V
 
-  def addEdge(self,src,dest):
-    # node = AdjNode(dest)
-    # node.next = self.graph[src] 
-    # self.graph[src] = node 
-    # Adding the source node to the destination as 
-    # it is the undirected graph 
-    node = AdjNode(src) 
-    node.next = self.graph[dest] 
-    self.graph[dest] = node 
-
-  def poopie(self):
-    print("poopie")
- 
-
-  # Function to print the graph 
-  def printGraph(self): 
-    for i in range(self.V): 
-      print("Adjacency list of vertex {}\n head".format(i), end="") 
-      temp = self.graph[i] 
-      while temp: 
-        print(" -> {}".format(temp.vertex), end="") 
-        temp = temp.next
-      print(" \n")
-
-
-
+#BFS algorithm
 def BFS(start, goal):
 	explored = []
 	queue = [[start]]
@@ -79,10 +56,10 @@ GRID = [[0 for i in range(cols)] for j in range(rows)]
 #Grid class that will contain all the nodes and base stations via public methods
 LOGICAL_GRID = Grid()
 
-#User inputted radius for nodes
-NODE_RADIUS = 20
+#Radius for nodes
+NODE_RADIUS = 17
 
-#User inputted radius for base stations
+#Radius for base stations
 BASE_STATION_RADIUS = 15
 
 #Randomly generated number of nodes, ranging from 2-10
@@ -109,14 +86,20 @@ channelPoisson = np.random.poisson(lam=80, size=numOfChannels)
 #Ensures that the value is less than 1
 channelPoisson = channelPoisson/100
 
+
+allChannels = {}
+
 #Populates the dictionary with the key being the channel number, and the value being the associated probability
 k = 0
 while k < numOfChannels :
-	LOGICAL_GRID.UNUSED_CHANNELS[k+1] = channelPoisson[k]
+	allChannels[k+1] = channelPoisson[k]
 	k = k + 1
 
 #Sorts the dictionary using the value (probability)
-LOGICAL_GRID.UNUSED_CHANNELS = sorted(LOGICAL_GRID.UNUSED_CHANNELS.items(), key=lambda x: x[1])
+allChannels = sorted(allChannels.items(), key=lambda x: x[1])
+
+print("ALL CHANNELS BELOW")
+print(allChannels)
 
 i = 0
 #Randomly plot nodes onto GRID
@@ -126,7 +109,7 @@ for node in range(numOfNodes):
 	while GRID[x][y] != 0:
 		x = random.randrange(0,99)
 		y = random.randrange(0,99)
-	tmpNode = Node(x, y, i, NODE_RADIUS)
+	tmpNode = Node(x, y, i, NODE_RADIUS, allChannels[:])
 	GRID[x][y] = tmpNode
 	LOGICAL_GRID.NODES.append(tmpNode)
 	i+=1
@@ -155,43 +138,101 @@ for m in LOGICAL_GRID.NODES:
 			#print("poopie")
 			continue
 		else :
-			if LOGICAL_GRID.checkBaseStations(m, n) == 0 or LOGICAL_GRID.checkBaseStations(m, n) == 1:
-				graph.addEdge(m.ID, n.ID)
+			if LOGICAL_GRID.checkTransmission(m, n) == 0 or LOGICAL_GRID.checkTransmission(m, n) == 1:
 				NODE_DICTIONARY[m.ID].append(n.ID)
 
 print(NODE_DICTIONARY)
 
-
-# for node in LOGICAL_GRID.NODES:
-# 	print("NODE ID BELOW")
-# 	print(node.ID)
-# 	print(node.x1)
-# 	print (node.y1)
-# 	print(node.radius)
-
-#BSNodes = {}
 for base in LOGICAL_GRID.BASESTATIONS:
 	for node in LOGICAL_GRID.NODES:
 		if LOGICAL_GRID.addNodeToBaseStation(base, node) == True:
-			# print(node)
-			# print(base)
-			#BSNodes[base].append(node)
-			#print("ADDED")
 			continue
-		#else :
-			#print('none')
-			#print("NOT ADDED")
-	
-	#print(base.nodes)
 
-#Shortest path from source to destination node being printed as a list
-print(BFS(1, 2))
-#print(BSNodes)
+ALL_PATHS = []
+
+while True:
+	#Shortest path from source to destination node being printed as a list
+	VERIFICATION = input("Want to continue? Enter \'continue\' or \'quit\': \n")
+	if VERIFICATION == 'continue':
+		
+		#ensures user inputs positive number
+		source = int(input("Enter Source: "))
+		if source < 0:
+			print("Enter positive number.")
+			continue
+
+		#ensures user inputs positive number
+		destination = int(input("Enter Destination: "))
+		if destination < 0:
+			print("Enter positive number.")
+			continue
+
+		path = BFS(source, destination)
+		
+		if path == "No path!":
+			continue
+
+		reverse_path = path[:]
+
+		print("Shortest Path: " + str(path))
+		length = len(BFS(source,destination))
+		channelsToRemove = allChannels[:length-1]
+		
+		#Add the path and the reverse path to prevent user input same path
+		if path in ALL_PATHS:
+			print("Path already exists")
+			continue
+		else:
+			ALL_PATHS.append(path)
+			reverse_path.reverse()
+			ALL_PATHS.append(reverse_path)
 
 
-#LOGICAL_GRID.route(LOGICAL_GRID.NODES[0], LOGICAL_GRID.NODES[1])
+		print("BEFORE: ")
+		for i in range(numOfNodes):
+			print("<" + str(LOGICAL_GRID.NODES[i].ID) + ">: " + str(LOGICAL_GRID.NODES[i].UNUSED_CHANNELS_NODE))
 
-#graph.printGraph()
-#print("AFTER GRAPH IS PRINTED")
-#graph.BFS(LOGICAL_GRID.NODES[0].ID, LOGICAL_GRID.NODES[1].ID)
+		for i in range(len(path)):
+			k = path[i]
+			if i != len(path)-1:
+				#for j in range(len(channelsToRemove)):
+				nextNode = LOGICAL_GRID.NODES[path[i+1]]
+				startOfUnusedChannel = LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE[0]
 
+				if (startOfUnusedChannel not in LOGICAL_GRID.NODES[k].USED_CHANNELS) and (startOfUnusedChannel not in nextNode.USED_CHANNELS):
+					
+					LOGICAL_GRID.NODES[k].USED_CHANNELS.append(startOfUnusedChannel)
+					LOGICAL_GRID.NODES[path[i+1]].USED_CHANNELS.append(startOfUnusedChannel)
+					LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE.remove(startOfUnusedChannel)
+					LOGICAL_GRID.NODES[path[i+1]].UNUSED_CHANNELS_NODE.remove(startOfUnusedChannel)
+
+				elif (startOfUnusedChannel in LOGICAL_GRID.NODES[k].USED_CHANNELS):
+
+					for p in range(len(LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE)):
+
+						if (LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE[p] + 1 in LOGICAL_GRID.NODES[k].USED_CHANNELS) or (LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE[p] - 1 in LOGICAL_GRID.NODES[k].USED_CHANNELS):
+							continue
+						else:
+
+							LOGICAL_GRID.NODES[k].USED_CHANNELS.append(startOfUnusedChannel)
+							LOGICAL_GRID.NODES[path[i+1]].USED_CHANNELS.append(startOfUnusedChannel)
+							LOGICAL_GRID.NODES[k].UNUSED_CHANNELS_NODE.remove(startOfUnusedChannel)
+							LOGICAL_GRID.NODES[path[i+1]].UNUSED_CHANNELS_NODE.remove(startOfUnusedChannel)
+
+							break
+					
+			else:
+				break
+
+		
+		#Debug
+		print("AFTER: ")
+		for i in range(numOfNodes):
+			print("<" + str(LOGICAL_GRID.NODES[i].ID) + ">: " + str(LOGICAL_GRID.NODES[i].UNUSED_CHANNELS_NODE))
+
+	elif VERIFICATION == 'quit':
+		break
+
+	else:
+		print("Invalid input!")
+		continue

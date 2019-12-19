@@ -1,5 +1,7 @@
 #Grid Class
-
+#Xiangmin Mo and Sami Beig
+#Constructs a grid class that contains all of the baseStations and Nodes in a single list
+#Algorithm for checking transmission range is included in this file
 import Node
 import baseStation
 import math
@@ -13,15 +15,13 @@ class Grid():
 	def __init__(self):
 		self.BASESTATIONS = []
 		self.NODES = []
-		self.USED_CHANNELS = {}
-		self.UNUSED_CHANNELS = {}
-		self.DISTANCES = {}
-		self.DIJKSTRAS = {}
+		# self.USED_CHANNELS = {}
+		# self.UNUSED_CHANNELS = {}
+		#self.DISTANCES = {}
 
 	#Add nodes to a base station
 	def addNodeToBaseStation(self, b1 , n1):
 		#Checking if n1 is within transmission range of b1
-		# if ((b1.x1 + b1.radius) < (n1.x1) and (b1.y1 + b1.radius) < (n1.y1)) or ((b1.x1 - b1.radius) > (n1.x1) and (b1.y1 - b1.radius) > (n1.y1)) == True:
 		if self.nodeInBaseStation(b1, n1) == True :	
 			b1.nodes.append(n1)
 			return True
@@ -38,10 +38,9 @@ class Grid():
       		Circles intersect each other. """
     
 	#Checks whether b1 and b2 intersect using their transmission range
-	def checkBaseStations(self, b1, b2):
+	def checkTransmission(self, b1, b2):
 		x = (b2.x1 - b1.x1)**2
-		y = (b2.y1 - b1.y1)**2 
-		#dist = math.sqrt(x + y)
+		y = (b2.y1 - b1.y1)**2
 		dist = (x + y)
 		radSumSq = (b1.radius + b2.radius) ** 2
 		if (dist == radSumSq):
@@ -62,29 +61,4 @@ class Grid():
 			return True
 		else:
 			return False
-
-
-	#Route Establishment Algorithm
-	#n1 - source
-	#n2 - destination
-	def route(self, n1, n2):
-
-		baseRoute = []
-		for base in self.BASESTATIONS :
-			if (n1 in base.nodes) == True :
-				baseRoute.append(base)
-				break
-
-		for base in self.BASESTATIONS :
-			if (n2 in base.nodes) == True :
-				baseRoute.append(base)
-				break
-
-		if len(baseRoute) == 0 :
-			print("No Route")
-		elif len(baseRoute) == 2:
-			print(baseRoute)
-			print("Only 2")
-		else :
-			print("Hello World")
 

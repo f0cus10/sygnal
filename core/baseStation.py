@@ -1,6 +1,8 @@
+#Base Station class
+#Xiangmin Mo and Sami Beig
+
 import Node
 
-#Base Station class
 class baseStation():
 
 	#Initialize Base Station class
