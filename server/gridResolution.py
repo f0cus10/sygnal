@@ -38,5 +38,4 @@ def resolve(grid_id, grid):
             else:
                 return jsonify({"error": "Unknown object detected"})
 
-    return jsonify(grid=json_grid, grid_id=grid_id)        
-    pass
+    return jsonify(grid=json_grid, grid_id=grid_id)       

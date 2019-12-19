@@ -8,18 +8,30 @@ import { grid } from "./files/grid.json";
 import { connections } from "./files/connections.json";
 import lineSeries from "react-vis/dist/plot/series/line-series";
 
-class App extends Component {
-state = {
-  gridData : [],
-  fields: {},
-  gridId: null,
-  SourceNode: "",
-  DestinationNode: "",
-  gridG: [],
-};
+class Graph extends Component {
+  constructor(props) {
+    super(props);
+    this.handleGridState = this.handleGridChange.bind(this);
+    this.state = {
+      gridData : [],
+      fields: {},
+      gridId: this.props.gridId,
+      SourceNode: "",
+      DestinationNode: "",
+      gridG: this.props.gridG,
+    };
+  }
 
-getGridData() {
-}
+
+  componentDidMount(){
+    console.log(this.state.gridG);
+  }
+  handleGridChange(gridGM){
+    this.setState({gridG: gridGM});
+    console.log(this.state.gridG);
+  }
+
+
 
 getConnectionData(){
   
@@ -58,10 +70,11 @@ onSubmit = async(e) => {
 
 
 render () {
+  const gridG = this.state.gridG;
   return (
     <div className="App">
         <XYPlot width={300} height={300}>
-          <CustomSVGSeries data = {grid}/>
+          <CustomSVGSeries data = {gridG}/>
           {Object.values(connections).map((index) => {
             return(
               <LineSeries data={index}/>
@@ -94,4 +107,4 @@ render () {
   }
 }
 
-export default App;
+export default Graph;

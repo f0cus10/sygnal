@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './App';
 import Form from './Form';
 
-class App extends Component {
+class Routes extends Component {
   render () {
     return (
       <BrowserRouter>
@@ -19,4 +19,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Routes;

@@ -1,19 +1,29 @@
 import React from "react";
 import axios from "axios";
 import "./App.css";
+import Graph from "./Graph";
 
-export default class Form extends React.Component {
+class Form extends React.Component {
+  _isMounted= false;
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {numChannels: ""};
+    this.state = {numChannels: "", gridId: "", gridG: []};
   }
 
 Change(e){
   this.setState({numChannels: e});
   console.log(this.state.numChannels);
 }
-  
+
+componentDidMount(){
+  this._isMounted=true;
+}
+
+componentWillUnmount(){
+  this._isMounted=false;
+}
+
 handleChange = e => {
   this.setState({
     [e.target.name]: e.target.value
@@ -23,16 +33,16 @@ handleChange = e => {
 
 onSubmit = async(e) => {
   e.preventDefault();
+
   const { numChannels } = this.state;
 
   const result = await axios.post('/submitform', {numChannels});
   const response = result.data;
-  console.log(response);
-  //this.props.updateGrid(response)
-  // this.setState({
-  //     numChannels: "",
-  //     });
-
+  this.setState({gridId: response.grid_id});
+  this.setState({gridG: response.grid});
+  console.log(this.state.gridG);
+  console.log(this.state.gridId);
+  this.props.history.push("/data");
 };
 
 render () {
@@ -56,3 +66,5 @@ render () {
   );
   }
 }
+
+export default Form;
