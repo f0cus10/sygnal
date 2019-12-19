@@ -189,7 +189,7 @@ while True:
 
 
 		print("BEFORE: ")
-		for i in range(numOfNodes):
+		for i in range(len(LOGICAL_GRID.NODES)):
 			print("<" + str(LOGICAL_GRID.NODES[i].ID) + ">: " + str(LOGICAL_GRID.NODES[i].UNUSED_CHANNELS_NODE))
 
 		for i in range(len(path)):
@@ -227,7 +227,7 @@ while True:
 		
 		#Debug
 		print("AFTER: ")
-		for i in range(numOfNodes):
+		for i in range(len(LOGICAL_GRID.NODES)):
 			print("<" + str(LOGICAL_GRID.NODES[i].ID) + ">: " + str(LOGICAL_GRID.NODES[i].UNUSED_CHANNELS_NODE))
 
 	elif VERIFICATION == 'quit':
